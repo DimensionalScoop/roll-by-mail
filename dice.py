@@ -8,12 +8,13 @@ class die_like:
     def reduce(cls, pattern):
         return cls.pattern.sub(pattern,"")
 
-
-    def kind():
-        """How the roll results should be treated:
-        add: add result to total
-        single: result is never added but stated on its own"""
-        return "add"
+    @classmethod
+    def get_dice(cls, pattern):
+        return_value= []
+        dice = cls.pattern.findall(pattern)
+        for i in dice:
+            return_value.append(cls())
+        return return_value
 
     def roll(self):
         raise NotImplementedError()
@@ -22,10 +23,10 @@ class die_like:
 
 
 class polyhedral_die(die_like):
-    pattern = re.compile(r"([+-]?)\s*(\d*)d(\d+)")
+    pattern = re.compile(r"([+-]?)\s*(\d*)d(\d+)\b")
     
-    @staticmethod
-    def get_dice(pattern):
+    @classmethod
+    def get_dice(cls, pattern):
         dice = polyhedral_die.pattern.findall(pattern)
         return_value = []
         for die_group in dice:
@@ -55,8 +56,8 @@ class polyhedral_die(die_like):
 class bonus(die_like):
     pattern = re.compile(r"([+-])\s*(\d+)\b")
     
-    @staticmethod
-    def get_dice(pattern):
+    @classmethod
+    def get_dice(cls, pattern):
         boni = bonus.pattern.findall(pattern)
         if len(boni)==0: return []
         total = 0
@@ -81,8 +82,48 @@ class bonus(die_like):
     def __repr__(self):
         return "static bonus of "+str(self.bonus)
 
+class dsa_check(die_like):
+    pattern = re.compile(r"dsa")
+
+    def roll(self):
+        dice = tuple(np.random.randint(1,21,3).tolist())
+        return "[%d] [%d] [%d]"%dice
+
+    def __repr__(self):
+        return "DSA check"
+
+class fudge(die_like):
+    pattern = re.compile(r"([+-]?)\s*(\d*)dF\b")
+    
+    @classmethod
+    def get_dice(cls, pattern):
+        dice = fudge.pattern.findall(pattern)
+        return_value = []
+        for die_group in dice:
+            sign, number = die_group
+            if number=="": number=4
+            for i in range(int(number)):
+                return_value.append(fudge(sign))
+        return return_value
+    
+    def __init__(self, sign="+"):
+        self.sign = sign
+
+    def __str__(self):
+        name = "- dF" if self.sign == "." else "dF"
+        return name
+
+    def __repr__(self):
+        action = "subtracted" if self.sign == "-" else "added"
+        return "fudge die that is " + action
+
+    def roll(self):
+        return np.random.randint(-1, 1 + 1)
+
 
 die_types.extend([
     polyhedral_die,
-    bonus
+    bonus,
+    dsa_check,
+    fudge
 ])
