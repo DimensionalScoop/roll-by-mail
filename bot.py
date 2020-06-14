@@ -5,6 +5,7 @@ import logging
 import time
 
 import parser
+import fun
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -102,6 +103,7 @@ dispatcher.add_handler(CommandHandler("fate", roll_fate))
 dispatcher.add_handler(CommandHandler("dF", roll_fate))
 dispatcher.add_handler(CommandHandler("df", roll_fate))
 dispatcher.add_handler(CommandHandler("help", help))
+dispatcher.add_handler(CommandHandler("give_me_the_math", fun.give_me_the_math))
 
 updater.start_polling()
 print("Started.")
