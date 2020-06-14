@@ -38,7 +38,7 @@ def fate(shaker, result_numbers, result_strings):
     bonus = ""
     for die, num in zip(shaker, result_numbers):
         if isinstance(die, dice.bonus):
-            bonus = "+" + str(num) if num >= 0 else str(num)
+            bonus = " + " + str(num) if num >= 0 else " - "+str(abs(num))
 
     result_text = "[ " + " ".join(visible_dice) + " ]" + bonus + "\n"
 
