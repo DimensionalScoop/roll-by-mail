@@ -87,7 +87,7 @@ class dsa_check(die_like):
 
     def roll(self):
         dice = tuple(np.random.randint(1,21,3).tolist())
-        return "[%d] [%d] [%d]"%dice
+        return "\\[%d] \\[%d] \\[%d]"%dice
 
     def __repr__(self):
         return "DSA check"

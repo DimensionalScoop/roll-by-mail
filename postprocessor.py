@@ -40,18 +40,18 @@ def fate(shaker, result_numbers, result_strings):
         if isinstance(die, dice.bonus):
             bonus = " + " + str(num) if num >= 0 else " - "+str(abs(num))
 
-    result_text = "[ " + " ".join(visible_dice) + " ]" + bonus + "\n"
+    result_text = "\\[ " + " ".join(visible_dice) + " ]" + bonus + "\n"
 
     try:
-        quality = " (" + ladder[result] + ")"
+        quality = "* (" + ladder[result] + ")"
     except KeyError:
         quality = ""
     if result == 0:
-        result_text += "±0" + quality + "\n"
+        result_text += "±0" + quality + "*\n"
     elif result < 0:
-        result_text += "-" + str(-result) + quality + "\n"
+        result_text += "-" + str(-result) + quality + "*\n"
     elif result > 0:
-        result_text += "+" + str(result) + quality + "\n"
+        result_text += "+" + str(result) + quality + "*\n"
 
     return result_text
 
@@ -68,13 +68,13 @@ def dsa(shaker, result_numbers, result_strings):
 def default_postprocessing(shaker, numbers, strings, suppress_single_die_display=False):
     return_value = ""
     if not suppress_single_die_display:
-        return_value += "[" + ", ".join(str(i) for i in shaker) + "]\n"
+        return_value += "\[" + ", ".join(str(i) for i in shaker) + "]\n"
     if len(numbers) > 1:
         return_value += join_numbers(numbers) + "\n"
     if strings:
         return_value += "\n".join(strings) + "\n"
     if numbers:
-        return_value += "Σ " + str(sum(numbers))
+        return_value += "*Σ " + str(sum(numbers)) + "*"
     return return_value
 
 

@@ -32,14 +32,14 @@ def roll_dice(update, context):
     chat_id = update.effective_chat.id
     args = " ".join(context.args)
     answer = parser.handle_dice_command(args)
-    context.bot.send_message(chat_id=chat_id, text=answer)
+    context.bot.send_message(chat_id=chat_id, text=answer,parse_mode="MARKDOWN")
 
 
 def roll_single_die(update, context):
     chat_id = update.effective_chat.id
     args = "d"+" ".join(context.args)
     answer = parser.handle_dice_command(args)
-    context.bot.send_message(chat_id=chat_id, text=answer)
+    context.bot.send_message(chat_id=chat_id, text=answer,parse_mode="MARKDOWN")
 
 
 def roll_fate(update, context):
@@ -56,14 +56,14 @@ def roll_fate(update, context):
     except ValueError:
         complete_args += args
     answer = parser.handle_dice_command(complete_args)
-    context.bot.send_message(chat_id=chat_id, text=answer)
+    context.bot.send_message(chat_id=chat_id, text=answer,parse_mode="MARKDOWN")
 
 
 def roll_dsa(update, context):
     chat_id = update.effective_chat.id
     args = " ".join(context.args)
     answer = parser.handle_dice_command("dsa " + args)
-    context.bot.send_message(chat_id=chat_id, text=answer)
+    context.bot.send_message(chat_id=chat_id, text=answer,parse_mode="MARKDOWN")
 
 
 def help(update, context):
