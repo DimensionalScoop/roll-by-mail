@@ -43,7 +43,7 @@ def fate(shaker, result_numbers, result_strings):
     result_text = "\\[ " + " ".join(visible_dice) + " ]" + bonus + "\n"
 
     try:
-        quality = "* (" + ladder[result] + ")"
+        quality = "* (" + ladder[int(result)] + ")"
     except KeyError:
         quality = ""
     if result == 0:
