@@ -3,7 +3,7 @@ import numpy as np
 
 die_types = []
 def randint(high,size=1,low=1):
-    if size<0:
+    if low<0:
         dtype = np.int64
     else:
         dtype = np.uint64
