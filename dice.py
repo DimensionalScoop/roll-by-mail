@@ -3,7 +3,11 @@ import numpy as np
 
 die_types = []
 def randint(high,size=1,low=1):
-    return np.random.randint(low, high, size, dtype=np.uint64)
+    if size<0:
+        dtype = np.int64
+    else:
+        dtype = np.uint64
+    return np.random.randint(low, high, size, dtype=dtype)
 
 
 class die_like:
