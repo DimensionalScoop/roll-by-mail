@@ -1,0 +1,2 @@
+numpy>1.18.5
+python-telegram-bot==21.3
