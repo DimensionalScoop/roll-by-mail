@@ -1,7 +1,6 @@
 from telegram import Bot
-from telegram.ext import CommandHandler, ContextTypes, ApplicationBuilder
+from telegram.ext import CommandHandler, ApplicationBuilder
 import logging
-
 import parser
 import fun
 
@@ -11,11 +10,13 @@ logging.basicConfig(
 
 token_file = "token"
 with open(token_file) as f:
-    token = f.readline().replace("\n", "")
+    token = f.readline().strip()
+
 app = ApplicationBuilder().token(token).build()
 
+
 async def start(update, context):
-    await help(update, context)
+    await help_command(update, context)
 
 
 async def hey(update, context):
@@ -29,14 +30,13 @@ async def roll_dice(update, context):
 
 
 async def roll_single_die(update, context):
-    args = "d"+" ".join(context.args)
+    args = "d" + " ".join(context.args)
     answer = parser.handle_dice_command(args)
     await update.message.reply_markdown(answer)
 
 
 async def roll_fate(update, context):
     args = " ".join(context.args)
-
     complete_args = "dF "
     try:
         args = int(args)
@@ -56,27 +56,23 @@ async def roll_dsa(update, context):
     await update.message.reply_markdown(answer)
 
 
-async def help(update, context):
+async def help_command(update, context):
     answer = """
 A dice rolling bot by @elayn
 ------------------------------------
 `/roll`, `/r`
 roll dice
 E.g.: `/r 2d20+3` rolls two d20 and adds three
-
 `/d`
 roll a single die
 E.g.: `/d 10` rolls a d10
-
 `/dsa`, `/r dsa`
 roll a DSA check
 E.g.: `/dsa` rolls `3d20`
-
 `/fate`, `/dF`, `/r dF`
 roll a Fate check
 E.g.: `/fate +2` rolls four fudge dice and adds two
     """
-
     await update.message.reply_markdown(answer)
 
 
@@ -90,7 +86,7 @@ app.add_handler(CommandHandler("dsa", roll_dsa))
 app.add_handler(CommandHandler("fate", roll_fate))
 app.add_handler(CommandHandler("dF", roll_fate))
 app.add_handler(CommandHandler("df", roll_fate))
-app.add_handler(CommandHandler("help", help))
+app.add_handler(CommandHandler("help", help_command))
 app.add_handler(CommandHandler("give_me_the_math", fun.give_me_the_math))
 
 app.run_polling()
