@@ -1,0 +1,5 @@
+#!/bin/bash
+
+ln -s /home/elayn/roll-by-mail/roll-by-mail.service /home/elayn/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable --now roll-by-mail.service

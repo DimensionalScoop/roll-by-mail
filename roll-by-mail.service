@@ -6,13 +6,13 @@ Wants=network-online.target
 After=network.target network-online.target
 
 [Service]
-ExecStart=/home/elayn/roll-by-mail/venv/bin/python /home/elayn/roll-by-mail/telegram_bot.py
+ExecStart=/home/elayn/roll-by-mail/.venv/bin/python /home/elayn/roll-by-mail/bot.py
 WorkingDirectory=/home/elayn/roll-by-mail/
 StandardOutput=file:/var/log/roll-by-mail-std.log
 StandardError=file:/var/log/roll-by-mail-err.log
-Restart=always
-User=elayn
-Group=elayn
+# Restart=always
+# User=elayn
+# Group=elayn
 
 [Install]
 WantedBy=multi-user.target
